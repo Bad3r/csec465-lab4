@@ -1,7 +1,7 @@
 ---
 - name: Install OSquery on Linux hosts
   hosts: linux
-  become_user: root
+  become: true
 
   tasks:
     - name: Update repositories cache
