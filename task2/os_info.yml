@@ -1,0 +1,27 @@
+---
+
+- hosts: linux
+  tasks:
+    - name: Getting Linux hostnames
+      shell: echo "SELECT hostname FROM system_info;" | osqueryi
+      register: linux_hostnames
+    - debug:
+        var: linux_hostnames.stdout_lines
+
+    - name: Getting Linux OS info
+      shell: echo "SELECT name, major, minor, patch, build FROM os_version;" | osqueryi
+      register: linux_os
+    - debug:
+        var: linux_os.stdout_lines
+
+    - name: Getting Linux IP addresses
+      shell: echo "SELECT address FROM interface_addresses;" | osqueryi
+      register: linux_ip
+    - debug:
+        var: linux_ip.stdout_lines
+
+    - name: Getting Linux users
+      shell: echo "SELECT username FROM users;" | osqueryi
+      register: linux_users
+    - debug:
+        var: linux_users.stdout_lines
