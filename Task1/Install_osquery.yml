@@ -7,18 +7,17 @@
     - name: Update repositories cache
       apt:
         update_cache: yes
-    
-    - name: Add osquery apt repo
-      apt_repository:
-        repo: deb [arch=amd64] https://pkg.osquery.io/deb deb main
-        state: present
 
     - name: Add osquery key to apt
       apt_key:
         keyserver: keyserver.ubuntu.com
         id: 1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
         state: present
-
+  
+    - name: Add osquery apt repo
+      apt_repository:
+        repo: deb [arch=amd64] https://pkg.osquery.io/deb deb main
+        state: present
 
     - name: Update apt
       apt:
