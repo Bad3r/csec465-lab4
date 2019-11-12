@@ -1,34 +1,23 @@
 ---
 - name: Install OSquery on Linux hosts
   hosts: linux
-  become_user: root
-
   tasks:
-    - name: Update repositories cache
-      apt:
-        update_cache: yes
-    
-    - name: Add osquery apt repo
+    - name: Add repo key
+      apt_key:
+        key_server: keyserver.ubuntu.com
+        id: 1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
+        state: present
+    - name: Add osquery repo
       apt_repository:
         repo: deb [arch=amd64] https://pkg.osquery.io/deb deb main
         state: present
-
-    - name: Add osquery key to apt
-      apt_key:
-        keyserver: keyserver.ubuntu.com
-        id: 1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
-        state: present
-
-
-    - name: Update apt
+    - name: Update apt cache
       apt:
         update_cache: yes
         state: present
-
-    - name: Install OSquery
+    - name: Install osquery
       apt:
         name: osquery
         state: present
-
     - debug:
-        var: task_result.stdout_lines
+        var: result.stdout_lines

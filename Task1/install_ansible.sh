@@ -12,7 +12,7 @@ fi
 sudo apt-get update
 sudo apt-get upgrade -y
 
-sudo apt-get install python python-pip python-apt software-properties-common -y
+sudo apt-get install python python-pip python-apt software-properties-common aptitude -y
 
 sudo apt-add-repository ppa:ansible/ansible
 
