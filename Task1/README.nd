@@ -1,5 +1,0 @@
-# TASK #1:
-Ansible playbook to:
-    a. Install osquery on a Windows host
-        i. Ensure that osquery has access to Windows events
-b. Install osquery on a Linux hos
