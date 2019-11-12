@@ -28,6 +28,3 @@
       apt:
         name: osquery
         state: present
-
-    - debug:
-        var: task_result.stdout_lines
