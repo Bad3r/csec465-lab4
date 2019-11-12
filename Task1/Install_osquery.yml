@@ -1,7 +1,8 @@
 ---
 - name: Install OSquery on Linux hosts
   hosts: linux
-  become_user: root
+  sudo: yes
+  
   tasks:
     - name: Update repositories cache
       apt:
