@@ -30,7 +30,7 @@
         var: linux_ip.stdout_lines
      
     - name: Getting auto start processes
-      shell: "select name, path FROM processes WHERE parent = 1;" | osqueryi
+      shell: "SELECT name, path FROM processes WHERE parent = 1;" | osqueryi
       register: linux_boot
     - debug:
         var: linux_boot.stdout_lines
