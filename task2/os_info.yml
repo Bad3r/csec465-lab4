@@ -1,4 +1,5 @@
 ---
+#################### Linux OS Info #######################
 - name: OSquery Linux
   hosts: linux
   vars:
@@ -23,13 +24,13 @@
         var: linux_os.stdout_lines
 
     - name: Getting Linux IP addresses
-      shell: echo "SELECT address FROM interface_addresses;" | osqueryi
+      shell: echo "SELECT interface, address, mask FROM interface_addresses;" | osqueryi
       register: linux_ip
     - debug:
         var: linux_ip.stdout_lines
      
     - name: Getting auto start processes
-      shell: "osqueryi 'select name, path FROM processes WHERE parent = 1;'"
+      shell: "select name, path FROM processes WHERE parent = 1;" | osqueryi
       register: linux_boot
     - debug:
         var: linux_boot.stdout_lines
