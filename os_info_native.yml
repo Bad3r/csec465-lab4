@@ -30,7 +30,7 @@
         var: os_patch.stdout_lines
 
     - name: get ip info - Linux
-      shell: "ip -rb a"
+      shell: "ip -br a"
       register: ipaddr
     - debug:
         var: ipaddr.stdout_lines
