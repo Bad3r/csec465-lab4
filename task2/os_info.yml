@@ -27,12 +27,6 @@
       register: linux_ip
     - debug:
         var: linux_ip.stdout_lines
-
-    - name: Getting Linux users
-      shell: echo "SELECT username FROM users;" | osqueryi
-      register: linux_users
-    - debug:
-        var: linux_users.stdout_lines
      
     - name: Getting auto start processes
       shell: "osqueryi 'select name, path FROM processes WHERE parent = 1;'"
@@ -45,19 +39,19 @@
       register: kernel_modules
     - debug:
         var: kernel_modules.stdout_lines
-       
+
     - name: Show only the name of package and version.
       shell: echo "SELECT name, version FROM deb_packages ORDER BY name;" | osqueryi
       register: linux_packages
     - debug:
         var: linux_packages.stdout_lines
         
-    - name: Show only the name of package and version.
-      shell: echo "SELECT name, version FROM deb_packages ORDER BY name;" | osqueryi
-      register: linux_packages
+    - name: Getting Linux users
+      shell: echo "SELECT username FROM users;" | osqueryi
+      register: linux_users
     - debug:
-        var: linux_packages.stdout_lines
-
+        var: linux_users.stdout_lines
+        
     - name: check the last login users, use the 'last' table
       shell: echo "SELECT * FROM last WHERE type=7;" | osqueryi
       register: linux_last
