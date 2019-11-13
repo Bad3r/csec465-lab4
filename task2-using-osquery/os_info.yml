@@ -69,3 +69,102 @@
       register: linux_connections
     - debug:
         var: linux_connections.stdout_lines
+
+###################### WINDOWS #########################
+- name: OSQuery Windows
+  hosts: windows
+  vars:
+    ansible_port: 5985
+    ansible_connection: winrm
+    ansible_user: intern99@csec465g2
+    ansible_password: Letmein123!
+    ansible_winrm_transport: ntlm
+
+  tasks:
+    - name: Set osquery on the $env:PATH
+      win_path:
+        elements:
+        - '%SystemRoot%\Program Files\osquery'
+
+    - name: Get Windows hostname
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select hostname from system_info;"
+      register: win_hostname
+
+    - name: Get Windows OS info
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select * from os_version;"
+      register: win_info
+
+    - name: Get Windows IP address
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select friendly_name, interface, address, mask from interface_addresses;"
+      register: win_IP
+
+    - name: Get Windows local users
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select username from users where type == 'local';"
+      register: win_users
+
+    - name: Get Windows installed applications
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select name, version from programs;"
+      register: win_apps
+
+    - name: Get Windows autoruns
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select name, source from autoexec;"
+      register: win_autos
+
+    - name: Get Windows recent logons
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select logon_id, user, logon_time from logon_sessions;"
+      register: win_logon
+
+    - name: Get Windows logged on
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select user, type, tty, pid from logged_in_users;"
+      register: win_loggedon
+
+    - name: Get Windows running processes
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "select pid, name, path, state from processes;"
+      register: win_proc
+
+    - name: Get Windows port listeners
+      win_command: osqueryi.exe -
+      args:
+        stdin: -json "pid, port, socket, path from listening_ports;"
+      register: win_cons
+
+    - debug:
+        msg:
+              - Hostname
+              - "{{win_hostname}}"
+              - OS Info
+              - "{{win_info}}"
+              - IP Address
+              - "{{win_IP}}"
+              - Users
+              - "{{win_users}}"
+              - Applications
+              - "{{win_apps}}"
+              - Autoruns
+              - "{{win_autos}}"
+              - Logons
+              - "{{win_logon}}"
+              - Logged On
+              - "{{win_loggedon}}"
+              - Processes
+              - "{{win_proc}}"
+              - Connections
+              - "{{win_cons}}"
