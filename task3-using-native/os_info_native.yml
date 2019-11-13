@@ -53,23 +53,23 @@
     - debug:
         var: users.stdout_lines
 
-    - name: get logins - Linux
+    - name: get last login users - Linux
       shell: "cat /var/log/auth.log | grep login | grep New | tail -n 20"
-      register: linux_logins_native
+      register: linux_last_native
     - debug:
-        var: linux_logins_native.stdout_lines
+        var: linux_last_native.stdout_lines
 
-    - name: get procs - Linux
+    - name: get processes - Linux
       shell: "ps xao pid,ppid,uid,comm,cmd"
-      register: linux_procs_native
+      register: nix_ps
     - debug:
-        var: linux_procs_native.stdout_lines
+        var: nix_ps.stdout_lines
 
-    - name: get conn - Linux
+    - name: get network connections - Linux
       shell: netstat -atn | grep -v "80" | grep -v "443"
-      register: linux_conn_native
+      register: nix_net
     - debug:
-        var: linux_conn_native.stdout_lines
+        var: nix_net.stdout_lines
 
 - name: Windows Native
   hosts: windows
@@ -140,8 +140,3 @@
       register: win_conns_native
     - debug:
         var: win_conns_native.stdout_lines
-
-   
-
-
-
