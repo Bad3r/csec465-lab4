@@ -70,7 +70,7 @@
         var: win_ip_info_native.stdout_lines
       
     - name: Getting Windows Users Native
-      win_shell: net user
+      win_shell: Get-LocalUser
       register: win_users_native
     - debug:
         var: win_users_native.stdout_lines
