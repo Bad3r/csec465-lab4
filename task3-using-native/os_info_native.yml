@@ -12,10 +12,10 @@
   tasks:
     #################### Linux OS Info #######################
     - name: get hostname & domain - Linux
-      shell: "echo $HOSTNAME"
-      register: host
+      shell: hostname -A
+      register: linux_host_native
     - debug:
-        var: host.stdout
+        var: host.stdout_lines
 
     - name: Get OS version - Linux
       shell: lsb_release -ds
@@ -57,7 +57,7 @@
       shell: "cat /var/log/auth.log | grep login | grep New | tail -n 20"
       register: linux_logins_native
     - debug:
-        var: linux-logins_native.stdout_lines
+        var: linux_logins_native.stdout_lines
 
     - name: get procs - Linux
       shell: "ps xao pid,ppid,uid,comm,cmd"
