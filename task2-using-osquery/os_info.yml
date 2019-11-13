@@ -7,9 +7,8 @@
     ansible_user: student
     ansible_ssh_pass: student
     ansible_sudo_pass: student
-    
   become: true
-  
+
   tasks:
     - name: Getting Linux hostnames
       shell: echo "SELECT hostname FROM system_info;" | osqueryi
@@ -28,13 +27,13 @@
       register: linux_ip
     - debug:
         var: linux_ip.stdout_lines
-     
+
     - name: Getting auto start processes
-      shell: "select name, path FROM processes WHERE parent = 1;" | osqueryi
+      shell: echo "SELECT name, path FROM processes WHERE parent = 1;" | osqueryi
       register: linux_boot
     - debug:
         var: linux_boot.stdout_lines
-        
+
     - name: Show all loaded kernel modules on the system
       shell: echo "SELECT * FROM kernel_modules LIMIT 5;" | osqueryi
       register: kernel_modules
@@ -46,22 +45,27 @@
       register: linux_packages
     - debug:
         var: linux_packages.stdout_lines
-        
+
     - name: Getting Linux users
       shell: echo "SELECT username FROM users;" | osqueryi
       register: linux_users
     - debug:
         var: linux_users.stdout_lines
-        
+
     - name: check the last login users, use the 'last' table
       shell: echo "SELECT * FROM last WHERE type=7;" | osqueryi
       register: linux_last
     - debug:
         var: linux_last.stdout_lines
-        
+
     - name: Getting Linux services
       shell: echo "select * from etc_services" | osqueryi
       register: installed_out
-    - debug: 
-        var:installed_out.stdout_lines
- 
+    - debug:
+        var: installed_out.stdout_lines
+
+    - name: Getting Linux network connections
+      shell: echo "SELECT * FROM process_open_sockets WHERE remote_port != 80 AND remote_port != 443 AND (family = 2 OR family = 10) AND state != 'LISTEN' AND remote_port != 0;" | osqueryi
+      register: linux_connections
+    - debug:
+        var: linux_connections.stdout_lines
