@@ -40,19 +40,19 @@
     - debug:
         var: kernel_modules.stdout_lines
        
-     - name: Show only the name of package and version.
+    - name: Show only the name of package and version.
       shell: echo "SELECT name, version FROM deb_packages ORDER BY name;" | osqueryi
       register: linux_packages
     - debug:
         var: linux_packages.stdout_lines
         
-     - name: Show only the name of package and version.
+    - name: Show only the name of package and version.
       shell: echo "SELECT name, version FROM deb_packages ORDER BY name;" | osqueryi
       register: linux_packages
     - debug:
         var: linux_packages.stdout_lines
 
-     - name: check the last login users, use the 'last' table
+    - name: check the last login users, use the 'last' table
       shell: echo "SELECT * FROM last WHERE type=7;" | osqueryi
       register: linux_last
     - debug:
