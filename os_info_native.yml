@@ -55,7 +55,7 @@
       win_shell: hostname
       register: win_hostnames_native
     - debug:
-        var: win_hostnames_natie.stdout_lines
+        var: win_hostnames_native.stdout_lines
 
     - name: Getting Windows OS Info Native
       win_shell: systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
