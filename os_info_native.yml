@@ -16,15 +16,21 @@
       register: host
     - debug:
         var: host.stdout
- 
+
     - name: Get OS version - Linux
-      shell: "uname -r"
-      register: version
+      shell: lsb_release -ds
+      register: os_version
     - debug:
-        var: version.stdout_lines
+        var: os_version.stdout_lines
+      
+    - name: Get patch level - Linux
+      shell: "uname -r"
+      register: os_patch
+    - debug:
+        var: os_patch.stdout_lines
 
     - name: get ip info - Linux
-      shell: "ip a"
+      shell: "ip -rb a"
       register: ipaddr
     - debug:
         var: ipaddr.stdout_lines
