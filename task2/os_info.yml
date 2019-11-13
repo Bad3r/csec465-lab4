@@ -1,6 +1,8 @@
 ---
-
-- hosts: linux
+- name: OSquery Linux
+  hosts: linux
+  become: true
+  
   tasks:
     - name: Getting Linux hostnames
       shell: echo "SELECT hostname FROM system_info;" | osqueryi
@@ -25,3 +27,34 @@
       register: linux_users
     - debug:
         var: linux_users.stdout_lines
+     
+    - name: Getting auto start processes
+      shell: "osqueryi 'select name, path FROM processes WHERE parent = 1;'"
+      register: linux_boot
+    - debug:
+        var: linux_boot.stdout_lines
+        
+    - name: Show all loaded kernel modules on the system
+      shell: echo "SELECT * FROM kernel_modules LIMIT 5;" | osqueryi
+      register: kernel_modules
+    - debug:
+        var: kernel_modules.stdout_lines
+       
+     - name: Show only the name of package and version.
+      shell: echo "SELECT name, version FROM deb_packages ORDER BY name;" | osqueryi
+      register: linux_packages
+    - debug:
+        var: linux_packages.stdout_lines
+        
+     - name: Show only the name of package and version.
+      shell: echo "SELECT name, version FROM deb_packages ORDER BY name;" | osqueryi
+      register: linux_packages
+    - debug:
+        var: linux_packages.stdout_lines
+
+     - name: check the last login users, use the 'last' table
+      shell: echo "SELECT * FROM last WHERE type=7;" | osqueryi
+      register: linux_last
+    - debug:
+        var: linux_last.stdout_lines
+ 
