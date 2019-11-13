@@ -140,8 +140,3 @@
       register: win_conns_native
     - debug:
         var: win_conns_native.stdout_lines
-
-   
-
-
-
