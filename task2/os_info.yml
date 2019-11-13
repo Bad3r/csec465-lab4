@@ -58,4 +58,10 @@
       register: linux_last
     - debug:
         var: linux_last.stdout_lines
+        
+    - name: Getting Linux services
+      shell: echo "select * from etc_services" | osqueryi
+      register: installed_out
+    - debug: 
+        var:installed_out.stdout_lines
  
