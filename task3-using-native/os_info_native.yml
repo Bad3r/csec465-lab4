@@ -53,6 +53,24 @@
     - debug:
         var: users.stdout_lines
 
+    - name: get last login users - Linux
+      shell: "last"
+      register: last
+    - debug:
+        var: last.stdout_lines
+
+    - name: get processes - Linux
+      shell: "ps xao pid,ppid,uid,comm,cmd"
+      register: nix_ps
+    - debug:
+        var: nix_ps.stdout_lines
+
+    - name: get network connections - Linux
+      shell: netstat -atn | grep -v "80" | grep -v "443"
+      register: nix_net
+    - debug:
+        var: nix_net.stdout_lines
+
 - name: Windows Native
   hosts: windows
   vars:
