@@ -28,3 +28,32 @@
       apt:
         name: osquery
         state: present
+
+########### WINDOWS #############
+- name: Install OSquery on Windows
+  hosts: windows
+  vars:
+    ansible_port: 5985
+    ansible_connection: winrm
+    ansible_user: intern99@csec465g2
+    ansible_password: Letmein123!
+    ansible_winrm_transport: ntlm
+
+  tasks:
+    - name: Install Chocolatey
+      win_command: powershell.exe -
+      args:
+        stdin: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')
+
+    - name: Install OSQuery
+      win_chocolatey:
+        name: osquery
+        state: present
+
+    - name: Setup OSQuery
+      win_service:
+        name: osqueryd 
+        start_type: auto
+        path: C:Program Files/osquery/osqueryd/osqueryd.exe --flagfile=/Program Files/osquery/osquery.flags
+        display_name: osqueryd
+        action: add
