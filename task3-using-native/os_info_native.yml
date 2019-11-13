@@ -67,7 +67,7 @@
 
     - name: get conn - Linux
       shell: netstat -atn | grep -v "80" | grep -v "443"
-      register: linux_conns_native
+      register: linux_conn_native
     - debug:
         var: linux_conn_native.stdout_lines
 
