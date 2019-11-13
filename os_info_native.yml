@@ -29,6 +29,77 @@
       register: users
     - debug:
         var: users.stdout_lines
+
+- name: Windows Native
+  hosts: windows
+   vars:
+    ansible_port: 5985
+    ansible_connection: winrm
+    ansible_user: intern99@csec465g2
+    ansible_password: Letmein123!
+    ansible_winrm_transport: ntlm
+
+  tasks:
+    - name: Getting Windows hostnames Native
+      win_shell: hostname
+      register: win_hostnames_native
+    - debug:
+        var: win_hostnames_natie.stdout_lines
+
+    - name: Getting Windows OS Info Native
+      win_shell: systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+      register: win_os_info_native
+    - debug:
+        var: win_os_info_native.stdout_lines
+
+    - name: Getting Windows IP Info Native
+      win_shell: ipconfig
+      register: win_ip_info_native
+    - debug:
+        var: win_ip_info_native.stdout_lines
+      
+    - name: Getting Windows Users Native
+      win_shell: net user
+      register: win_users_native
+    - debug:
+        var: win_users_native.stdout_lines
+
+    - name: Getting Windows Server Components Native
+      win_shell: Get-Service | select name
+      register: win_serv_comp_native
+    - debug:
+        var: win_serv_comp_native.stdout_lines
+
+    - name: Getting Windows Installed Programs Native
+      win_shell: wmic product get name
+      register: win_installed_native
+    - debug:
+        var: win_installed_native.stdout_lines
+    
+    - name: Getting Windows Startup Programs Native
+      win_shell: Get-WmiObject -Class Win32_StartupCommand
+      register: win_startup_native
+    - debug:
+        var: win_startup_native.stdout_lines
+
+    - name: Getting Windows Recent Logins Native
+      win_shell: Get-EventLog System -Source Microsoft-Windows-WinLogon -After (Get-Date).AddDays(-2)
+      register: win_logins_native
+    - debug:
+        var: win_logins_native.stdout_lines
+
+    - name: Getting Windows Procs Native
+      win_shell: Get-Process -IncludeUserName | select id, ProcessName, UserName, Path
+      register: win_procs_native
+    - debug:
+        var: win_procs_native.stdout_lines
+    
+    - name: Getting Windows Connections Native
+      win_shell: Get-NetTCPConnection | findstr /V ".*443.*" | findstr /V ".*80.*" |findstr /V ".*Listen" | findstr /V ".*Bound.*" | findstr /V ".*127\.0\.0\.1.*127\.0\.0\.1.*"   
+      register: win_conns_native
+    - debug:
+        var: win_conns_native.stdout_lines
+
    
 
 
