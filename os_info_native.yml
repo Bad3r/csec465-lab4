@@ -1,0 +1,35 @@
+---
+- name: OS Info with native tools
+  hosts: all
+  become: yes
+
+
+  tasks:
+#################### Linux OS Info #######################
+    - name: get hostname & domain - Linux
+      shell: "echo $HOSTNAME"
+      register: host
+    - debug:
+        var: host.stdout
+ 
+    - name: Get OS version - Linux
+      shell: "uname -r"
+      register: version
+    - debug:
+        var: version.stdout_lines
+
+    - name: get ip info - Linux
+      shell: "ip a"
+      register: ipaddr
+    - debug:
+        var: ipaddr.stdout_lines
+    
+    - name: get local users - Linux
+      shell: "cut -d: -f1 /etc/passwd"
+      register: users
+    - debug:
+        var: users.stdout_lines
+   
+
+
+
