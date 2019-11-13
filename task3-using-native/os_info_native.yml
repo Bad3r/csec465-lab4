@@ -65,11 +65,11 @@
     - debug:
         var: linux_procs_native.stdout_lines
 
-    - name: get conns - Linux
+    - name: get conn - Linux
       shell: netstat -atn | grep -v "80" | grep -v "443"
       register: linux_conns_native
     - debug:
-        var: linux_conns_native.stdout_lines
+        var: linux_conn_native.stdout_lines
 
 - name: Windows Native
   hosts: windows
