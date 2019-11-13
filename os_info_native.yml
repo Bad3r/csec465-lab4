@@ -2,7 +2,7 @@
 - name: OS Info with native tools
   hosts: linux
   vars:
-    ansible_connection=: ssh
+    ansible_connection: ssh
     ansible_user: student
     ansible_ssh_pass: student
   become: yes
