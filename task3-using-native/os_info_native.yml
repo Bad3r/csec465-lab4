@@ -54,7 +54,7 @@
         var: users.stdout_lines
 
     - name: get last login users - Linux
-      shell: "last"
+      shell: "cat /var/log/auth.log | grep login | grep New | tail -n 20"
       register: last
     - debug:
         var: last.stdout_lines
