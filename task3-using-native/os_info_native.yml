@@ -15,7 +15,7 @@
       shell: hostname -A
       register: linux_host_native
     - debug:
-        var: host.stdout_lines
+        var: linux_host_native.stdout_lines
 
     - name: Get OS version - Linux
       shell: lsb_release -ds
