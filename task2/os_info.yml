@@ -61,12 +61,11 @@
     - name: Getting Linux services
       shell: echo "select * from etc_services" | osqueryi
       register: installed_out
-    - debug: 
-        var:installed_out.stdout_lines
+    - debug:
+        var: installed_out.stdout_lines
 
     - name: Getting Linux network connections
       shell: echo "SELECT * FROM process_open_sockets WHERE remote_port != 80 AND remote_port != 443 AND (family = 2 OR family = 10) AND state != 'LISTEN' AND remote_port != 0;" | osqueryi
       register: linux_connections
     - debug:
         var: linux_connections.stdout_lines
-
